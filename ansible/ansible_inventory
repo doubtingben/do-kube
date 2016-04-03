@@ -1,0 +1,12 @@
+[docker-hosts]
+do-kube-nyc3-01.yooser.org
+do-kube-nyc3-02.yooser.org
+do-kube-nyc3-03.yooser.org
+
+[docker-hosts:vars]
+ansible_ssh_private_key_file = ~/.ssh/do-kube-root.key
+
+[etcd_cluster_group]
+do-kube-nyc3-01.yooser.org
+do-kube-nyc3-02.yooser.org
+do-kube-nyc3-03.yooser.org

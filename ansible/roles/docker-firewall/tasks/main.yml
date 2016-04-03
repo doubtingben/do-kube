@@ -1,0 +1,22 @@
+---
+
+- name: Install pre-reqs
+  apt: name={{ item }} state=installed
+  with_items:
+    - ufw
+  register: preReqsInstalled
+
+- name: Allow ssh
+  ufw: rule=allow port=22
+
+- name: Allow etcd hosts to talk to each other
+  ufw: rule=allow port=4001 src={{ hostvars[item]['ansible_eth0']['ipv4']['address'] }}
+  with_items: "{{ groups.etcd_cluster_group }}"
+
+- name: Allow etcd hosts to talk to each other
+  ufw: rule=allow port=2379 src={{ hostvars[item]['ansible_eth0']['ipv4']['address'] }}
+  with_items: "{{ groups.etcd_cluster_group }}"
+
+- name: Allow etcd hosts to talk to each other
+  ufw: rule=allow port=2380 src={{ hostvars[item]['ansible_eth0']['ipv4']['address'] }}
+  with_items: "{{ groups.etcd_cluster_group }}"

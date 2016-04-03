@@ -1,0 +1,4 @@
+[Service]
+EnvironmentFile=-/etc/default/docker
+ExecStart=
+ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPT_HOME $DOCKER_OPT_TLS $DOCKER_OPT_CLUSTER $DOCKER_OPT_CLUSTER_TLS

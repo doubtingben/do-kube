@@ -1,0 +1,43 @@
+---
+
+- name: Add docker apt repo key
+  apt_key: keyserver=p80.pool.sks-keyservers.net id=58118E89F3A912897C070ADBF76221572C52609D state=present
+  register: repoKeyAdded
+
+- name: Add docker apt repo source
+  copy: src=docker.list dest=/etc/apt/sources.list.d/docker.list
+  register: repoAdded
+
+- name: Install pre-reqs
+  apt: name={{ item }} state=installed 
+  with_items:
+    - apt-transport-https
+  register: preReqsInstalled
+
+- name: Install docker-engine
+  apt: name={{ item }} state=latest update_cache=yes 
+  with_items:
+    - docker-engine
+  register: dockerInstalled
+
+- name: Create systemd drop-in dir
+  file: path=/etc/systemd/system/docker.service.d state=directory mode=0755
+  register: dockerConfigured1
+
+- name: Create systemd drop-in file
+  copy: src=docker.service dest=/etc/systemd/system/docker.service.d/docker.conf
+  register: dockerConfigured2
+
+- name: Create docker root directory
+  file: path={{ DOCKER_HOME }} state=directory mode=0755
+  register: dockerConfigured3
+  
+- name: Set docker options
+  template: src=docker.conf.j2 dest=/etc/default/docker owner=root group=root mode=0644
+  register: dockerConfigured4
+
+- name: Restart systemd
+  command: systemctl daemon-reload
+
+- name: Restart docker
+  service: name=docker state=restarted

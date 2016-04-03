@@ -1,0 +1,12 @@
+---
+- hosts: docker-hosts
+  vars:
+    DOCKER_HOME: "/var/lib/docker/aufs"
+    FLUENTD_SERVER: ""
+    ETCDVERSION: "2.3.1"
+    CERT_DIR: "/root/etcd-certs/"
+
+  roles:
+#  - docker-firewall
+  - docker-host-jessie
+  - docker-etcd

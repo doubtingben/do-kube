@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+DOCKER_OPT_TLS="--tlsverify --tlscacert={{ CERT_DIR }}/ca-cert.pem --tlscert={{ CERT_DIR }}/server-cert.pem --tlskey={{ CERT_DIR }}/server-key.pem -H=0.0.0.0:2376"
+DOCKER_OPT_LOG=" --log-driver=fluentd --log-opt fluentd-address={{ FLUENTD_SERVER }}:24224 --log-opt{% raw %} fluentd-tag=docker.{{.Name}}{% endraw %}"
+DOCKER_OPT_HOME=" -g {{ DOCKER_HOME }}"
+DOCKER_OPT_CLUSTER=" --cluster-store=etcd://{{ ansible_eth0.ipv4.address }}:2379 --cluster-advertise={{ ansible_eth0.ipv4.address }}:2376"
+DOCKER_OPT_CLUSTER_TLS=" --cluster-store-opt kv.cacertfile={{ CERT_DIR }}/ca-cert.pem --cluster-store-opt kv.certfile={{ CERT_DIR }}/server-cert.pem --cluster-store-opt kv.keyfile={{ CERT_DIR }}/server-key.pem"

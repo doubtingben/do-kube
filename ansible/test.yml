@@ -1,0 +1,5 @@
+---
+- hosts: docker-hosts
+  tasks:
+  - debug: msg="b {{ hostvars[item]['ansible_eth0']['ipv4']['address'] }}"
+    with_items: "{{ groups.etcd_cluster_group }}"

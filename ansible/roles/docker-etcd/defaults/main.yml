@@ -1,0 +1,1 @@
+etcd_cluster_string: "{% for host in groups['etcd_cluster_group'] %}etcd-{{ host }}=https://{{ host }}:2380{% if not loop.last %},{% endif %}{% endfor %}"
