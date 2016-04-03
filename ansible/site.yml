@@ -5,8 +5,10 @@
     FLUENTD_SERVER: ""
     ETCDVERSION: "2.3.1"
     CERT_DIR: "/root/etcd-certs/"
+    K8S_VERSION: "1.2.0"
 
   roles:
 #  - docker-firewall
   - docker-host-jessie
   - docker-etcd
+  - docker-kubelet
